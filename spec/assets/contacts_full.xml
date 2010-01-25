@@ -1,0 +1,60 @@
+<feed xmlns='http://www.w3.org/2005/Atom'
+    xmlns:openSearch='http://a9.com/-/spec/opensearch/1.1/'
+    xmlns:gContact='http://schemas.google.com/contact/2008'
+    xmlns:batch='http://schemas.google.com/gdata/batch'
+    xmlns:gd='http://schemas.google.com/g/2005'
+    gd:etag='W/"CUMBRHo_fip7ImA9WxRbGU0."'>
+  <id>liz@gmail.com</id>
+  <updated>2008-12-10T10:04:15.446Z</updated>
+  <category scheme='http://schemas.google.com/g/2005#kind'
+    term='http://schemas.google.com/contact/2008#contact' />
+  <title>Elizabeth Bennet's Contacts</title>
+  <link rel='http://schemas.google.com/g/2005#feed'
+    type='application/atom+xml'
+    href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full' />
+  <link rel='http://schemas.google.com/g/2005#post'
+    type='application/atom+xml'
+    href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full' />
+  <link rel='http://schemas.google.com/g/2005#batch'
+    type='application/atom+xml'
+    href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full/batch' />
+  <link rel='self' type='application/atom+xml'
+    href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full?max-results=25' />
+  <author>
+    <name>Elizabeth Bennet</name>
+    <email>liz@gmail.com</email>
+  </author>
+  <generator version='1.0' uri='http://www.google.com/m8/feeds'>
+    Contacts
+  </generator>
+  <openSearch:totalResults>1</openSearch:totalResults>
+  <openSearch:startIndex>1</openSearch:startIndex>
+  <openSearch:itemsPerPage>25</openSearch:itemsPerPage>
+  <entry gd:etag='"Qn04eTVSLyp7ImA9WxRbGEUORAQ."'>
+    <id>
+      http://www.google.com/m8/feeds/contacts/liz%40gmail.com/base/c9012de
+    </id>
+    <updated>2008-12-10T04:45:03.331Z</updated>
+    <app:edited xmlns:app='http://www.w3.org/2007/app'>2008-12-10T04:45:03.331Z</app:edited>
+    <category scheme='http://schemas.google.com/g/2005#kind'
+      term='http://schemas.google.com/contact/2008#contact' />
+    <title>Fitzwilliam Darcy</title>
+    <gd:name>
+      <gd:fullName>Fitzwilliam Darcy</gd:fullName>
+    </gd:name>
+    <link rel='http://schemas.google.com/contacts/2008/rel#photo' type='image/*'
+      href='http://www.google.com/m8/feeds/photos/media/liz%40gmail.com/c9012de'
+      gd:etag='"KTlcZWs1bCp7ImBBPV43VUV4LXEZCXERZAc."' />
+    <link rel='self' type='application/atom+xml'
+      href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full/c9012de' />
+    <link rel='edit' type='application/atom+xml'
+      href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full/c9012de' />
+    <gd:phoneNumber rel='http://schemas.google.com/g/2005#home'
+      primary='true'>
+      456
+    </gd:phoneNumber>
+    <gd:extendedProperty name='pet' value='hamster' />
+    <gContact:groupMembershipInfo deleted='false'
+      href='http://www.google.com/m8/feeds/groups/liz%40gmail.com/base/270f' />
+  </entry>
+</feed>
