@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "googlecontacts"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Contacts API on steroids}
+    gem.description = %Q{Google Contacts API implementation}
     gem.email = "pcnoordhuis@gmail.com"
     gem.homepage = "http://github.com/pietern/googlecontacts"
     gem.authors = ["Pieter Noordhuis"]
