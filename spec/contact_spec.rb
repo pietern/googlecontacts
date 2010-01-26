@@ -77,8 +77,4 @@ describe Contact do
       @contact.emails.size.should == 1
     end
   end
-
-  def xpath(path)
-    @contact.xml.xpath(path)
-  end
 end
