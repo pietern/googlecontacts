@@ -15,7 +15,7 @@ module GoogleContacts
       raise "Cannot create instance of Base" if self.class.name.split(/::/).last == 'Base'
       @wrapper = wrapper
       @xml     = self.class.decorate_with_namespaces(xml || initialize_xml_document)
-      @proxies = {}
+      @proxies = HashWithIndifferentAccess.new
     end
 
     def self.namespace(node, prefix)
@@ -119,9 +119,9 @@ module GoogleContacts
     def method_missing(sym, *args, &blk)
       if sym.to_s =~ /^(\w+)(=)?$/ && @proxies[$1.to_sym]
         if $2
-          @proxies[sym].replace(args.first)
+          @proxies[$1].replace(args.first)
         else
-          @proxies[sym]
+          @proxies[$1]
         end
       else
         super
