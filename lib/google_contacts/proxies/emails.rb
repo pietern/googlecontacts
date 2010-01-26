@@ -48,6 +48,10 @@ module GoogleContacts
         end
       end
 
+      def inspect
+        @new.values.inspect
+      end
+
       private
       def add(address)
         set_primary = @new.empty?
