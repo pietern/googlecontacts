@@ -27,7 +27,7 @@ module GoogleContacts
     def self.insert_xml(parent, tag, attributes = {}, &blk)
       # Construct new node with the right namespace
       matches = tag.match /^((\w+):)?(\w+)$/
-      ns      = matches[2] || 'atom'
+      ns      = matches[2] == 'xmlns' ? 'atom' : (matches[2] || 'atom')
       tag     = matches[3]
       node = Nokogiri::XML::Node.new(tag, parent)
       node.namespace = namespace(parent, ns) || raise("Unknown namespace: #{ns}")
