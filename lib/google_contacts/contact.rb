@@ -2,10 +2,11 @@ module GoogleContacts
   class Contact < Base
     CATEGORY_TERM = 'http://schemas.google.com/contact/2008#contact'
 
-    # attr_reader :groups
+    alias_attribute :name, :title
     def initialize(*args)
       super
 
+      register_proxy :title,  Proxies::Tag.new(self, :tag => 'xmlns:title')
       register_proxy :emails, Proxies::Emails.new(self)
       register_proxy :groups, Proxies::Array.new(self,
         :tag   => 'gContact:groupMembershipInfo',

@@ -25,6 +25,10 @@ describe Contact do
       @contact[:pet].should == 'hamster'
     end
 
+    it "should initialize the title tag" do
+      @contact.title.should == 'Fitzwilliam Darcy'
+    end
+
     it "should not be changed? initially" do
       @contact.changed?.should be_false
     end
@@ -42,9 +46,18 @@ describe Contact do
         @contact.url(:photo).should == 'http://www.google.com/m8/feeds/photos/media/liz%40gmail.com/c9012de'
       end
     end
+
+    describe "updating" do
+      it "should update the title-tag" do
+        @contact.xml.at('./xmlns:title').content.should == 'Fitzwilliam Darcy'
+        @contact.title = 'foo'
+        @contact.title.synchronize
+        @contact.xml.at('./xmlns:title').content.should == 'foo'
+      end
+    end
   end
 
-  describe "initializing" do
+  describe "from scratch" do
     before(:each) do
       @contact = Contact.new(wrapper)
       @root = @contact.xml.document.root
@@ -75,6 +88,15 @@ describe Contact do
       @contact.email = 'foo@bar.com'
       @contact.emails['foo@bar.com'].should be_primary
       @contact.emails.size.should == 1
+    end
+
+    describe "when updating" do
+      it "should update the title-tag" do
+        @contact.xml.at('./xmlns:title').should be_nil
+        @contact.title = 'foo'
+        @contact.title.synchronize
+        @contact.xml.at('./xmlns:title').content.should == 'foo'
+      end
     end
   end
 end
