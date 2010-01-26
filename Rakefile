@@ -10,7 +10,7 @@ begin
     gem.email = "pcnoordhuis@gmail.com"
     gem.homepage = "http://github.com/pietern/googlecontacts"
     gem.authors = ["Pieter Noordhuis"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "rspec", ">= 1.2.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
