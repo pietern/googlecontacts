@@ -11,6 +11,8 @@ begin
     gem.homepage = "http://github.com/pietern/googlecontacts"
     gem.authors = ["Pieter Noordhuis"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency "fakeweb", ">= 1.2.8"
+    gem.add_development_dependency "mocha", ">= 0.9.8"
     gem.add_runtime_dependency "activesupport", ">= 2.3.4"
     gem.add_runtime_dependency "nokogiri", ">= 1.4.1"
     gem.add_runtime_dependency "oauth", ">= 0.3.6"
