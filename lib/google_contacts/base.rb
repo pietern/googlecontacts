@@ -80,32 +80,20 @@ module GoogleContacts
     end
 
     def new?
-      at('id').nil?
+      xml.at_xpath('./xmlns:id').nil?
     end
 
     def id
-      at('id').text.strip unless new?
+      xml.at_xpath('./xmlns:id').text.strip unless new?
     end
 
     def updated_at
-      Time.parse at('updated').text.strip unless new?
+      Time.parse xml.at_xpath('./xmlns:updated').text.strip unless new?
     end
 
     def url(rel)
       rel = 'http://schemas.google.com/contacts/2008/rel#photo' if rel == :photo
-      at_xpath(%{xmlns:link[@rel="#{rel}"]})[:href]
-    end
-
-    def at(*args)
-      xml.at(*args)
-    end
-
-    def at_xpath(*args)
-      xml.at_xpath(*args)
-    end
-
-    def xpath(*args)
-      xml.xpath(*args)
+      xml.at_xpath(%{xmlns:link[@rel="#{rel}"]})[:href]
     end
 
     def changed?

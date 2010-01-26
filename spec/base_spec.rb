@@ -19,17 +19,17 @@ describe Base do
     it "should default namespace to document default" do
       node = @t.insert_xml 'tag'
       node.namespace.href.should == 'http://www.w3.org/2005/Atom'
-      @t.xpath('xmlns:tag').should have(1).node
+      @t.xml.xpath('xmlns:tag').should have(1).node
     end
 
     it "should set namespace when specified in tag" do
       node = @t.insert_xml 'gd:extendedProperty'
       node.namespace.href.should == 'http://schemas.google.com/g/2005'
-      @t.xpath('gd:extendedProperty').should have(1).node
+      @t.xml.xpath('gd:extendedProperty').should have(1).node
 
       node = @t.insert_xml 'gContact:birthday'
       node.namespace.href.should == 'http://schemas.google.com/contact/2008'
-      @t.xpath('gContact:birthday').should have(1).node
+      @t.xml.xpath('gContact:birthday').should have(1).node
     end
 
     it "should raise on unknown namespace" do
@@ -45,10 +45,10 @@ describe Base do
 
     it "should allow removing xml" do
       @t.insert_xml 'gd:extendedProperty'
-      @t.xpath('./gd:extendedProperty').should have(1).node
+      @t.xml.xpath('./gd:extendedProperty').should have(1).node
 
       @t.remove_xml 'gd:extendedProperty'
-      @t.xpath('./gd:extendedProperty').should have(:no).nodes
+      @t.xml.xpath('./gd:extendedProperty').should have(:no).nodes
     end
   end
 
