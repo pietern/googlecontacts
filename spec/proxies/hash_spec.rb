@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Proxies::Hash do
+describe GoogleContacts::Proxies::Hash do
   describe "with existing entries" do
     before(:each) do
       create_proxy_from_xml <<-XML
@@ -73,6 +73,6 @@ describe Proxies::Hash do
 
   def create_proxy_from_xml(str)
     @parent = stub('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = Proxies::Hash.new(@parent, :tag => 'prop', :key => 'name', :value => 'value')
+    @proxy  = GoogleContacts::Proxies::Hash.new(@parent, :tag => 'prop', :key => 'name', :value => 'value')
   end
 end

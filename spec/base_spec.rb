@@ -1,19 +1,19 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-class BaseTester < Base
+class GoogleContacts::BaseTester < GoogleContacts::Base
   CATEGORY_TERM = "i'm not used here"
 end
 
-describe Base do
+describe GoogleContacts::Base do
   it "should not be possible to create" do
     lambda {
-      Base.new(wrapper, 'some xml')
+      GoogleContacts::Base.new(wrapper, 'some xml')
     }.should raise_error(/cannot create instance/i)
   end
 
   describe "with an XML document" do
     before(:each) do
-      @t = BaseTester.new(wrapper)
+      @t = GoogleContacts::BaseTester.new(wrapper)
     end
 
     it "should default namespace to document default" do
@@ -54,7 +54,7 @@ describe Base do
 
   describe "prepare for batch operation" do
     before(:all) do
-      @t = BaseTester.new(wrapper, parsed_asset('contacts_full').at('feed > entry'))
+      @t = GoogleContacts::BaseTester.new(wrapper, parsed_asset('contacts_full').at('feed > entry'))
       @batch = @t.entry_for_batch(:update)
     end
 
@@ -71,7 +71,7 @@ describe Base do
     end
 
     it "should be possible to combine feed_for_batch and entry_for_batch" do
-      feed = BaseTester.feed_for_batch
+      feed = GoogleContacts::BaseTester.feed_for_batch
       feed << @t.entry_for_batch(:update)
     end
   end

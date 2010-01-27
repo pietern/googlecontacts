@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Proxies::Tag do
+describe GoogleContacts::Proxies::Tag do
   describe "with existing entries" do
     before(:each) do
       create_proxy_from_xml <<-XML
@@ -81,7 +81,7 @@ describe Proxies::Tag do
 
   def create_proxy_from_xml(str)
     @parent = stub('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = Proxies::Tag.new(@parent, :tag => 'atom:title')
+    @proxy  = GoogleContacts::Proxies::Tag.new(@parent, :tag => 'atom:title')
   end
 end
 

@@ -12,8 +12,8 @@ module GoogleContacts
     def initialize(consumer)
       @consumer = consumer
 
-      @contacts = CollectionProxy.new(self, 'contacts')
-      @groups   = CollectionProxy.new(self, 'groups')
+      @contacts = CollectionProxy.new(self, Contact)
+      @groups   = CollectionProxy.new(self, Group)
     end
 
     def get(url, options = {})
@@ -104,10 +104,10 @@ module GoogleContacts
     end
 
     class CollectionProxy
-      def initialize(wrapper, collection)
+      def initialize(wrapper, klass)
         @wrapper    = wrapper
-        @collection = collection
-        @klass      = collection.singularize.camelcase.constantize
+        @klass      = klass
+        @collection = klass.name.demodulize.pluralize.underscore
       end
 
       # :what - all, ID, whatever, currently unused

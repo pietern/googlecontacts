@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe Contact do
+describe GoogleContacts::Contact do
   describe "when loaded" do
     before(:each) do
       entries = parsed_asset('contacts_full').search('feed > entry')
-      @contacts = entries.map { |entry| Contact.new(wrapper, entry) }
+      @contacts = entries.map { |entry| GoogleContacts::Contact.new(wrapper, entry) }
       @contact  = @contacts.first
     end
 
@@ -59,7 +59,7 @@ describe Contact do
 
   describe "from scratch" do
     before(:each) do
-      @contact = Contact.new(wrapper)
+      @contact = GoogleContacts::Contact.new(wrapper)
       @root = @contact.xml.document.root
     end
 

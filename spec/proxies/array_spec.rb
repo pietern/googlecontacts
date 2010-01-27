@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Proxies::Array do
+describe GoogleContacts::Proxies::Array do
   describe "with existing entries" do
     before(:each) do
       create_proxy_from_xml %{<entry><group href="http://some.group" /></entry>}
@@ -99,7 +99,7 @@ describe Proxies::Array do
 
   def create_proxy_from_xml(str)
     @parent = mock('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = Proxies::Array.new(@parent, :tag => 'group', :attr => 'href')
+    @proxy  = GoogleContacts::Proxies::Array.new(@parent, :tag => 'group', :attr => 'href')
   end
 end
 

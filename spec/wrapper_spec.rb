@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe Wrapper do
+describe GoogleContacts::Wrapper do
   describe "fetching" do
     it "should be able to get list of contacts" do
       FakeWeb.register_uri(:get,
@@ -10,7 +10,7 @@ describe Wrapper do
 
       result = wrapper.contacts.find(:all)
       result.should have(1).contact
-      result.first.should be_a Contact
+      result.first.should be_a GoogleContacts::Contact
     end
 
     it "should be able to get list of groups" do
@@ -21,7 +21,7 @@ describe Wrapper do
 
       result = wrapper.groups.find(:all)
       result.should have(2).groups
-      result.first.should be_a Group
+      result.first.should be_a GoogleContacts::Group
     end
   end
 

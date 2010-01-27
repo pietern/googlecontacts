@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe Group do
+describe GoogleContacts::Group do
   before(:each) do
     entries = parsed_asset('groups_full').search('feed > entry')
-    @groups = entries.map { |entry| Group.new(wrapper, entry) }
+    @groups = entries.map { |entry| GoogleContacts::Group.new(wrapper, entry) }
     @group  = @groups.first
   end
 

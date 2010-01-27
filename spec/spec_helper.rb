@@ -9,15 +9,14 @@ require 'fakeweb'
 FakeWeb.allow_net_connect = false
 
 require 'google_contacts'
-include GoogleContacts
 
 module Helpers
   def consumer
-    ::OAuth::AccessToken.new(Auth.consumer, 'key', 'secret')
+    ::OAuth::AccessToken.new(GoogleContacts::Auth.consumer, 'key', 'secret')
   end
 
   def wrapper
-    @wrapper ||= Wrapper.new(consumer)
+    @wrapper ||= GoogleContacts::Wrapper.new(consumer)
   end
 
   def asset(file)
