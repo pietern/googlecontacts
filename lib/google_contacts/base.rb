@@ -117,7 +117,7 @@ module GoogleContacts
 
     # Try to proxy missing method to one of the proxies
     def method_missing(sym, *args, &blk)
-      if sym.to_s =~ /^(\w+)(=)?$/ && @proxies[$1.to_sym]
+      if sym.to_s =~ /^(\w+)(=)?$/ && @proxies[$1]
         if $2
           @proxies[$1].replace(args.first)
         else
