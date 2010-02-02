@@ -53,6 +53,11 @@ describe GoogleContacts::Wrapper do
       end
     end
 
+    it "should not flush when there are no operations to execute" do
+      wrapper.expects(:post).never
+      wrapper.batch {}
+    end
+
     it "should raise when mixing contacts and groups in one batch" do
       lambda {
         wrapper.batch {
