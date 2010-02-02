@@ -84,6 +84,10 @@ describe GoogleContacts::Contact do
       @contact.changed?.should be_true
     end
 
+    it "should have no groups" do
+      @contact.groups.should be_empty
+    end
+
     it "should be possible to set the default email address" do
       @contact.email = 'foo@bar.com'
       @contact.emails['foo@bar.com'].should be_primary
@@ -96,6 +100,45 @@ describe GoogleContacts::Contact do
         @contact.title = 'foo'
         @contact.title.synchronize
         @contact.xml.at('./xmlns:title').content.should == 'foo'
+      end
+    end
+  end
+
+  describe "operations" do
+    before(:each) do
+      @contact = GoogleContacts::Contact.new(wrapper)
+      @root = @contact.xml.document.root
+    end
+
+    describe "on groups" do
+      before(:each) do
+        @groups = [stub('group1', :href => 'foo'), stub('group2', :href => 'bar')]
+      end
+
+      it "should be possible to add an array of groups" do
+        @contact.groups += @groups
+        @contact.groups.should == ['foo', 'bar'].sort
+      end
+
+      it "should be possible to add an array of urls" do
+        @contact.groups += ['foo', 'bar']
+        @contact.groups.should == ['foo', 'bar'].sort
+      end
+
+      describe "with initial content" do
+        before(:each) do
+          @contact.groups = ['foo', 'bar', 'quux']
+        end
+
+        it "should be possible to remove an array of groups" do
+          @contact.groups -= @groups
+          @contact.groups.should == ['quux']
+        end
+
+        it "should be possible to remove an array of urls" do
+          @contact.groups -= ['foo', 'bar']
+          @contact.groups.should == ['quux']
+        end
       end
     end
   end

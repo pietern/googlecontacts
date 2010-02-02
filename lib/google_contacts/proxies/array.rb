@@ -10,9 +10,9 @@ module GoogleContacts
       end
 
       def reinitialize
-        @current = @parent.xml.xpath("./#{@tag}").map do |entry|
+        @current = sanitize(@parent.xml.xpath("./#{@tag}").map do |entry|
           entry[@attr]
-        end.compact.uniq.sort
+        end)
 
         # create a deep copy
         @new = @current.map { |item| item.dup }
@@ -29,17 +29,35 @@ module GoogleContacts
         end
       end
 
-      def push(item)
-        item = item.href if item.respond_to?(:href)
-        method_missing(:push, item)
+      def replace(content)
+        @new = sanitize([content].flatten)
       end
-      alias :<< :push
 
       private
+      # Extract href from arguments if the operation changes
+      # the contents of the array.
       def method_missing(sym, *args, &blk)
-        ret = @new.send(sym, *args, &blk)
-        @new = @new.compact.uniq.sort
-        ret
+        if [:<<, :push, :+, :-, :concat].include?(sym)
+          args = href_from_items(*args)
+        end
+
+        result = @new.send(sym, *args, &blk)
+        @new = sanitize(@new)
+        result
+      end
+
+      def sanitize(array)
+        array.compact.uniq.sort
+      end
+
+      def href_from_items(*items)
+        items.map do |item|
+          if item.is_a?(::Array)
+            href_from_items(*item)
+          else
+            item.respond_to?(:href) ? item.href : item
+          end
+        end
       end
     end # class Array
   end # module Proxies
