@@ -94,6 +94,12 @@ describe GoogleContacts::Contact do
       @contact.emails.size.should == 1
     end
 
+    it "should provide access to the contact's primary email address" do
+      @contact.email.should be_nil
+      @contact.email = 'foo@bar.com'
+      @contact.email.should == 'foo@bar.com'
+    end
+
     describe "when updating" do
       it "should update the title-tag" do
         @contact.xml.at('./xmlns:title').should be_nil

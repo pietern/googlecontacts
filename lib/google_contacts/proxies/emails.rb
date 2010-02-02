@@ -22,6 +22,10 @@ module GoogleContacts
         @current != @new
       end
 
+      def primary
+        @new.values.find { |email| email.primary? } || @new.values.first
+      end
+
       def primary!(address)
         @new.each do |key, email|
           if key == address

@@ -27,6 +27,10 @@ describe GoogleContacts::Proxies::Emails do
       @proxy['fubar@gmail.com'    ]         .should be_primary
     end
 
+    it "should be able to return the primary address" do
+      @proxy.primary.should == @proxy['fubar@gmail.com']
+    end
+
     it "should initially be unchanged" do
       @proxy.changed?.should be_false
     end

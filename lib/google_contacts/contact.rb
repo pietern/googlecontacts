@@ -25,6 +25,10 @@ module GoogleContacts
       properties[prop] = value
     end
 
+    def email
+      emails.primary.try(:address)
+    end
+
     def email=(address)
       emails[address].primary!
     end
