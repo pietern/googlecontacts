@@ -52,8 +52,21 @@ module GoogleContacts
     end
 
     def find(what, options = {}, &blk)
-      xml = get("http://www.google.com/m8/feeds/#{what}/default/full", options)
-      xml.xpath('/xmlns:feed/xmlns:entry').map(&blk)
+      options['max-results'] ||= 200
+      options['start-index'] = 1
+
+      result = []
+      begin
+        xml = get("http://www.google.com/m8/feeds/#{what}/default/full", options)
+        result.concat xml.xpath('/xmlns:feed/xmlns:entry').map(&blk)
+
+        total_results = xml.at('//openSearch:totalResults').text.to_i
+        start_index   = xml.at('//openSearch:startIndex'  ).text.to_i
+        per_page      = xml.at('//openSearch:itemsPerPage').text.to_i
+        options['start-index'] = start_index + per_page
+      end while (options['start-index'] <= total_results)
+
+      result
     end
 
     def save(instance)
@@ -66,8 +79,6 @@ module GoogleContacts
     def append_to_batch(entry)
       if @batching
         if @batch.present?
-          # puts @batch.last.a
-          # puts @batch.last.at('./category').inspect
           batch_term = @batch.last.at('./category')['term']
           entry_term =       entry.at('./category')['term']
           raise "Cannot mix Contact and Group in one batch" if batch_term != entry_term
