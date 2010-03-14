@@ -69,13 +69,8 @@ module GoogleContacts
       result
     end
 
-    def save(instance)
-      entry = instance.entry_for_batch(instance.new? ? :insert : :update)
-      append_to_batch(entry)
-    end
-
-    def delete(instance)
-      entry = instance.entry_for_batch(:delete)
+    def append_operation(instance, operation)
+      entry = instance.entry_for_batch(operation)
       append_to_batch(entry)
     end
 

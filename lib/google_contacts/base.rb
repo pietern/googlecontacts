@@ -83,12 +83,12 @@ module GoogleContacts
     def save
       return unless changed?
       synchronize_proxies
-      @wrapper.save(self)
+      @wrapper.append_operation(self, new? ? :insert : :update)
     end
 
     def delete
       return if new?
-      @wrapper.delete(self)
+      @wrapper.append_operation(self, :delete)
     end
 
     protected

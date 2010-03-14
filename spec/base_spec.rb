@@ -61,31 +61,31 @@ describe GoogleContacts::Base do
     # It is not sane to try and save a default entry
     it "should not save when an entry is new but has no changed fields" do
       @entry.stubs(:new? => true, :changed? => false)
-      @wrapper.expects(:save).never
+      @wrapper.expects(:append_operation).never
       @entry.save
     end
 
     it "should save when an entry is new and has changed fields" do
       @entry.stubs(:new? => true, :changed? => true)
-      @wrapper.expects(:save).with(@entry)
+      @wrapper.expects(:append_operation).with(@entry, :insert)
       @entry.save
     end
 
     it "should save when an entry has changed fields" do
-      @entry.stubs(:changed? => true)
-      @wrapper.expects(:save).with(@entry)
+      @entry.stubs(:new? => false, :changed? => true)
+      @wrapper.expects(:append_operation).with(@entry, :update)
       @entry.save
     end
 
     it "should not delete when an entry is new" do
       @entry.stubs(:new? => true)
-      @wrapper.expects(:delete).never
+      @wrapper.expects(:append_operation).never
       @entry.delete
     end
 
     it "should delete when an entry is not new" do
       @entry.stubs(:new? => false)
-      @wrapper.expects(:delete).with(@entry)
+      @wrapper.expects(:append_operation).with(@entry, :delete)
       @entry.delete
     end
   end
