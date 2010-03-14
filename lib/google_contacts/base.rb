@@ -24,41 +24,18 @@ module GoogleContacts
       @proxies = HashWithIndifferentAccess.new
     end
 
-    def self.namespace(node, prefix)
-      node.namespace_definitions.find do |ns|
-        ns.prefix == prefix
-      end
-    end
-
-    def self.insert_xml(parent, tag, attributes = {}, &blk)
-      # Construct new node with the right namespace
-      matches = tag.match /^((\w+):)?(\w+)$/
-      ns      = matches[2] == 'xmlns' ? 'atom' : (matches[2] || 'atom')
-      tag     = matches[3]
-      node = Nokogiri::XML::Node.new(tag, parent)
-      node.namespace = namespace(parent, ns) || raise("Unknown namespace: #{ns}")
-
-      attributes.each_pair do |k,v|
-        node[k.to_s] = v.to_s
-      end
-
-      parent << node
-      yield node if block_given?
-      node
-    end
-
     def attributes=(attrs)
       attrs.each_pair do |key, value|
         send("#{key}=", value)
       end
     end
 
-    def remove_xml(tag)
-      @xml.xpath(tag).remove
-    end
-
     def insert_xml(tag, attributes = {}, &blk)
       self.class.insert_xml(@xml, tag, attributes, &blk)
+    end
+
+    def remove_xml(tag)
+      @xml.xpath(tag).remove
     end
 
     def self.feed_for_batch
@@ -129,6 +106,29 @@ module GoogleContacts
       else
         super
       end
+    end
+
+    def self.namespace(node, prefix)
+      node.namespace_definitions.find do |ns|
+        ns.prefix == prefix
+      end
+    end
+
+    def self.insert_xml(parent, tag, attributes = {}, &blk)
+      # Construct new node with the right namespace
+      matches = tag.match /^((\w+):)?(\w+)$/
+      ns      = matches[2] == 'xmlns' ? 'atom' : (matches[2] || 'atom')
+      tag     = matches[3]
+      node = Nokogiri::XML::Node.new(tag, parent)
+      node.namespace = namespace(parent, ns) || raise("Unknown namespace: #{ns}")
+
+      attributes.each_pair do |k,v|
+        node[k.to_s] = v.to_s
+      end
+
+      parent << node
+      yield node if block_given?
+      node
     end
 
     def self.new_xml_document(root)
