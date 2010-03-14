@@ -49,10 +49,10 @@ describe GoogleContacts::Contact do
 
     describe "updating" do
       it "should update the title-tag" do
-        @contact.xml.at('./xmlns:title').content.should == 'Fitzwilliam Darcy'
+        @contact.xml.at('./atom:title').content.should == 'Fitzwilliam Darcy'
         @contact.title = 'foo'
         @contact.title.synchronize
-        @contact.xml.at('./xmlns:title').content.should == 'foo'
+        @contact.xml.at('./atom:title').content.should == 'foo'
       end
     end
   end
@@ -69,7 +69,7 @@ describe GoogleContacts::Contact do
     end
 
     it "should set the right category term" do
-      @root.at_xpath('./category')['term'].should == 'http://schemas.google.com/contact/2008#contact'
+      @root.at_xpath('./atom:category')['term'].should == 'http://schemas.google.com/contact/2008#contact'
     end
 
     it "should not have an id" do
@@ -102,10 +102,10 @@ describe GoogleContacts::Contact do
 
     describe "when updating" do
       it "should update the title-tag" do
-        @contact.xml.at('./xmlns:title').should be_nil
+        @contact.xml.at('./atom:title').should be_nil
         @contact.title = 'foo'
         @contact.title.synchronize
-        @contact.xml.at('./xmlns:title').content.should == 'foo'
+        @contact.xml.at('./atom:title').content.should == 'foo'
       end
     end
   end

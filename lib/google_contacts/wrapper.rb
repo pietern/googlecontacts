@@ -79,8 +79,8 @@ module GoogleContacts
     def append_to_batch(entry)
       if @batching
         if @batch.present?
-          batch_term = @batch.last.at('./category')['term']
-          entry_term =       entry.at('./category')['term']
+          batch_term = @batch.last.at('./atom:category')['term']
+          entry_term =       entry.at('./atom:category')['term']
           raise "Cannot mix Contact and Group in one batch" if batch_term != entry_term
         end
 

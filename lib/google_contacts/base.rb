@@ -8,13 +8,19 @@ module GoogleContacts
       'gd'          => 'http://schemas.google.com/g/2005',
     }.freeze
 
-    # DEFAULT_NAMESPACE = 'http://www.w3.org/2005/Atom'.freeze
-
     attr_reader :xml
     def initialize(wrapper, xml = nil)
       raise "Cannot create instance of Base" if self.class.name.split(/::/).last == 'Base'
       @wrapper = wrapper
-      @xml     = self.class.decorate_with_namespaces(xml || initialize_xml_document)
+
+      # If a root node is given, create a new XML document based on
+      # a deep copy. Otherwise, initialize a new XML document.
+      @xml = if xml.present?
+        self.class.new_xml_document(xml).root
+      else
+        self.class.initialize_xml_document.root
+      end
+
       @proxies = HashWithIndifferentAccess.new
     end
 
@@ -50,22 +56,13 @@ module GoogleContacts
     end
 
     def self.feed_for_batch
-      xml = Nokogiri::XML::Document.new
-      xml.root = decorate_with_namespaces(Nokogiri::XML::Node.new('feed', xml))
-      xml.root
-    end
-
-    def xml_copy
-      doc = Nokogiri::XML::Document.new
-      doc.root = self.class.decorate_with_namespaces(xml.dup)
-      doc.root
+      new_xml_document('feed').root
     end
 
     # Create new XML::Document that can be used in a
     # Google Contacts batch operation.
     def entry_for_batch(operation)
-      doc = Nokogiri::XML::Document.new
-      doc.root = self.class.decorate_with_namespaces(xml.dup) # This automatically dups xml
+      doc = self.class.new_xml_document(xml)
       doc.root.xpath('./xmlns:link'   ).remove
       doc.root.xpath('./xmlns:updated').remove
 
@@ -128,24 +125,32 @@ module GoogleContacts
       end
     end
 
-    def initialize_xml_document
-      xml = Nokogiri::XML::Document.new
-      xml.root = Nokogiri::XML::Node.new('entry', xml)
-
-      category = Nokogiri::XML::Node.new('category', xml)
-      category['scheme'] = 'http://schemas.google.com/g/2005#kind'
-      category['term'  ] = self.class.const_get(:CATEGORY_TERM)
-      xml.root << category
-
-      xml.root
+    def self.new_xml_document(root)
+      doc = Nokogiri::XML::Document.new
+      if root.is_a?(Nokogiri::XML::Element)
+        doc.root = root.dup(1)
+      else
+        doc.root = Nokogiri::XML::Node.new(root, doc)
+      end
+      decorate_document_with_namespaces(doc)
+      doc
     end
 
-    def self.decorate_with_namespaces(node)
-      node.default_namespace = NAMESPACES['atom']
+    def self.initialize_xml_document
+      doc = new_xml_document('entry')
+      insert_xml(doc.root, 'atom:category', {
+        :scheme => 'http://schemas.google.com/g/2005#kind',
+        :term   => const_get(:CATEGORY_TERM)
+      })
+      doc
+    end
+
+    def self.decorate_document_with_namespaces(doc)
+      doc.root.default_namespace = NAMESPACES['atom']
       NAMESPACES.each_pair do |prefix, href|
-        node.add_namespace(prefix, href)
+        doc.root.add_namespace(prefix, href)
       end
-      node
+      doc
     end
   end
 end

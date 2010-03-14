@@ -19,7 +19,7 @@ describe GoogleContacts::Base do
     it "should default namespace to document default" do
       node = @t.insert_xml 'tag'
       node.namespace.href.should == 'http://www.w3.org/2005/Atom'
-      @t.xml.xpath('xmlns:tag').should have(1).node
+      @t.xml.xpath('atom:tag').should have(1).node
     end
 
     it "should set namespace when specified in tag" do
@@ -63,11 +63,15 @@ describe GoogleContacts::Base do
     end
 
     it "should create a duplicate node without link tags" do
-      @batch.xpath('./xmlns:link').should be_empty
+      @batch.xpath('./atom:link').should be_empty
+    end
+
+    it "should not touch the category tag" do
+      @batch.xpath('./atom:category').should_not be_nil
     end
 
     it "should remove the updated tag (not useful when updating)" do
-      @batch.xpath('./xmlns:updated').should be_empty
+      @batch.xpath('./atom:updated').should be_empty
     end
 
     it "should be possible to combine feed_for_batch and entry_for_batch" do
