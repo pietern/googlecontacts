@@ -80,8 +80,12 @@ describe GoogleContacts::Contact do
       @contact.updated_at.should be_nil
     end
 
-    it "should always be changed" do
-      @contact.changed?.should be_true
+    it "should be new" do
+      @contact.new?.should be_true
+    end
+
+    it "should not be changed" do
+      @contact.changed?.should be_false
     end
 
     it "should have no groups" do

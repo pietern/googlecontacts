@@ -77,7 +77,7 @@ module GoogleContacts
     end
 
     def changed?
-      new? || @proxies.values.any?(&:changed?)
+      @proxies.values.any?(&:changed?)
     end
 
     def save

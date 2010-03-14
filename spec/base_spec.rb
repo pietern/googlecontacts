@@ -52,6 +52,32 @@ describe GoogleContacts::Base do
     end
   end
 
+  describe "basic crud" do
+    before(:each) do
+      @wrapper = wrapper
+      @entry   = GoogleContacts::BaseTester.new(@wrapper)
+    end
+
+    # It is not sane to try and save a default entry
+    it "should not save when an entry is new but has no changed fields" do
+      @entry.stubs(:new? => true, :changed? => false)
+      @wrapper.expects(:save).never
+      @entry.save
+    end
+
+    it "should save when an entry is new and has changed fields" do
+      @entry.stubs(:new? => true, :changed? => true)
+      @wrapper.expects(:save).with(@entry)
+      @entry.save
+    end
+
+    it "should save when an entry has changed fields" do
+      @entry.stubs(:changed? => true)
+      @wrapper.expects(:save).with(@entry)
+      @entry.save
+    end
+  end
+
   describe "prepare for batch operation" do
     before(:all) do
       @t = GoogleContacts::BaseTester.new(wrapper, parsed_asset('contacts_full').at('feed > entry'))
