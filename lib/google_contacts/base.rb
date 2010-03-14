@@ -45,18 +45,18 @@ module GoogleContacts
     # Create new XML::Document that can be used in a
     # Google Contacts batch operation.
     def entry_for_batch(operation)
-      doc = self.class.new_xml_document(xml)
-      doc.root.xpath('./xmlns:link'   ).remove
-      doc.root.xpath('./xmlns:updated').remove
+      root = self.class.new_xml_document(xml).root
+      root.xpath('./xmlns:link'   ).remove
+      root.xpath('./xmlns:updated').remove
 
       if operation == :update || operation == :delete
-        doc.root.at('./xmlns:id').content = url(:edit)
+        root.at('./xmlns:id').content = url(:edit)
       end
 
-      self.class.insert_xml(doc.root, 'batch:id')
-      self.class.insert_xml(doc.root, 'batch:operation', :type => operation)
+      self.class.insert_xml(root, 'batch:id')
+      self.class.insert_xml(root, 'batch:operation', :type => operation)
 
-      doc.root
+      root
     end
 
     def new?
