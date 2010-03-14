@@ -55,8 +55,8 @@ describe GoogleContacts::Wrapper do
     it "should collect operations in a batch" do
       wrapper.expects(:post).never
       document = wrapper.batch(:return_documents => true) do
-        wrapper.contacts.build.save
-        wrapper.contacts.build.save
+        wrapper.contacts.build(:name => 'c1').save
+        wrapper.contacts.build(:name => 'c2').save
       end.first
 
       document.xpath('.//xmlns:entry').should have(2).entries
@@ -68,7 +68,7 @@ describe GoogleContacts::Wrapper do
     it "should flush batches in chunks of 100" do
       wrapper.expects(:post).with(regexp_matches(%r!/contacts/!), is_a(String)).twice
       wrapper.batch do
-        contact = wrapper.contacts.build
+        contact = wrapper.contacts.build(:name => 'contact')
         101.times { contact.save }
       end
     end
@@ -81,20 +81,20 @@ describe GoogleContacts::Wrapper do
     it "should raise when mixing contacts and groups in one batch" do
       lambda {
         wrapper.batch {
-          wrapper.contacts.build.save
-          wrapper.groups.build.save
+          wrapper.contacts.build(:name => 'contact').save
+          wrapper.groups.build(:name => 'group').save
         }
       }.should raise_error(/cannot mix/i)
     end
 
     it "should POST a single-operation batch to contacts when not batching" do
       wrapper.expects(:post).with(regexp_matches(%r!/contacts/!), is_a(String))
-      wrapper.contacts.build.save
+      wrapper.contacts.build(:name => 'contact').save
     end
 
     it "should POST a single-operation batch to groups when not batching" do
       wrapper.expects(:post).with(regexp_matches(%r!/groups/!), is_a(String))
-      wrapper.groups.build.save
+      wrapper.groups.build(:name => 'group').save
     end
   end
 end

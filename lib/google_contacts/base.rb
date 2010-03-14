@@ -47,6 +47,12 @@ module GoogleContacts
       node
     end
 
+    def attributes=(attrs)
+      attrs.each_pair do |key, value|
+        send("#{key}=", value)
+      end
+    end
+
     def remove_xml(tag)
       @xml.xpath(tag).remove
     end

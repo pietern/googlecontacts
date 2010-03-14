@@ -129,7 +129,9 @@ module GoogleContacts
       end
 
       def build(attributes = {})
-        @klass.new(@wrapper)
+        returning(@klass.new(@wrapper)) do |instance|
+          instance.attributes = attributes
+        end
       end
 
     end # class CollectionProxy
