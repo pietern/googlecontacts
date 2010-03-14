@@ -76,6 +76,18 @@ describe GoogleContacts::Base do
       @wrapper.expects(:save).with(@entry)
       @entry.save
     end
+
+    it "should not delete when an entry is new" do
+      @entry.stubs(:new? => true)
+      @wrapper.expects(:delete).never
+      @entry.delete
+    end
+
+    it "should delete when an entry is not new" do
+      @entry.stubs(:new? => false)
+      @wrapper.expects(:delete).with(@entry)
+      @entry.delete
+    end
   end
 
   describe "prepare for batch operation" do
@@ -103,6 +115,13 @@ describe GoogleContacts::Base do
     it "should be possible to combine feed_for_batch and entry_for_batch" do
       feed = GoogleContacts::BaseTester.feed_for_batch
       feed << @t.entry_for_batch(:update)
+    end
+
+    it "should corretly set the batch:operation tag" do
+      %(insert update delete).each do |op|
+        batch = @t.entry_for_batch(op.to_sym)
+        batch.at('./batch:operation')['type'].should == op
+      end
     end
   end
 end

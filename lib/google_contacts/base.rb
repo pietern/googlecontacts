@@ -49,7 +49,7 @@ module GoogleContacts
       doc.root.xpath('./xmlns:link'   ).remove
       doc.root.xpath('./xmlns:updated').remove
 
-      if operation == :update || operation == :destroy
+      if operation == :update || operation == :delete
         doc.root.at('./xmlns:id').content = url(:edit)
       end
 
@@ -84,6 +84,11 @@ module GoogleContacts
       return unless changed?
       synchronize_proxies
       @wrapper.save(self)
+    end
+
+    def delete
+      return if new?
+      @wrapper.delete(self)
     end
 
     protected
