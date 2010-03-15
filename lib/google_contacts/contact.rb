@@ -19,5 +19,8 @@ module GoogleContacts
       emails[address].primary!
     end
 
+    def inspect
+      "\#<GoogleContacts::Contact name=#{name.inspect} email=#{email.inspect}>"
+    end
   end # class Contact
 end # module GoogleContacts
