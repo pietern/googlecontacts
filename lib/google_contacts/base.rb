@@ -22,6 +22,7 @@ module GoogleContacts
       end
 
       @proxies = HashWithIndifferentAccess.new
+      register_base_proxies
     end
 
     def attributes=(attrs)
@@ -91,6 +92,18 @@ module GoogleContacts
       @wrapper.append_operation(self, :delete)
     end
 
+    # Hash-like access to extended properties of both contacts and groups.
+    def [](prop)
+      properties[prop]
+    end
+
+    def []=(prop, value)
+      properties[prop] = value
+    end
+
+    # Alias the xmlns:title tag be be accessible using #name(=)?
+    alias_attribute :name, :title
+
     protected
     def register_proxy(name, proxy)
       @proxies[name.to_sym] = proxy
@@ -98,6 +111,14 @@ module GoogleContacts
 
     def synchronize_proxies
       @proxies.values.map(&:synchronize)
+    end
+
+    def register_base_proxies
+      register_proxy :title,  Proxies::Tag.new(self, :tag => 'xmlns:title')
+      register_proxy :properties, Proxies::Hash.new(self,
+        :tag   => 'gd:extendedProperty',
+        :key   => 'name',
+        :value => 'value')
     end
 
     # Try to proxy missing method to one of the proxies

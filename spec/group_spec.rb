@@ -19,4 +19,8 @@ describe GoogleContacts::Group do
     @groups[0].system_group?.should be_true
     @groups[1].system_group?.should be_false
   end
+
+  it "should initialize extended properties" do
+    @group[:foo].should == 'bar'
+  end
 end
