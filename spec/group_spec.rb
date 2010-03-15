@@ -7,8 +7,8 @@ describe GoogleContacts::Group do
     @group  = @groups.first
   end
 
-  it "should know its id" do
-    @group.id.should == 'http://www.google.com/m8/feeds/groups/jo%40gmail.com/base/6'
+  it "should know its href" do
+    @group.href.should == 'http://www.google.com/m8/feeds/groups/jo%40gmail.com/base/6'
   end
 
   it "should initialize the title tag" do

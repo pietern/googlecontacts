@@ -8,8 +8,8 @@ describe GoogleContacts::Contact do
       @contact  = @contacts.first
     end
 
-    it "should know its id" do
-      @contact.id.should == 'http://www.google.com/m8/feeds/contacts/liz%40gmail.com/base/c9012de'
+    it "should know its href" do
+      @contact.href.should == 'http://www.google.com/m8/feeds/contacts/liz%40gmail.com/base/c9012de'
     end
 
     it "should know when it was updated" do
@@ -72,8 +72,8 @@ describe GoogleContacts::Contact do
       @root.at_xpath('./atom:category')['term'].should == 'http://schemas.google.com/contact/2008#contact'
     end
 
-    it "should not have an id" do
-      @contact.id.should be_nil
+    it "should not have an href" do
+      @contact.href.should be_nil
     end
 
     it "should not have an updated entry" do

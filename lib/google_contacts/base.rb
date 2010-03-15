@@ -64,7 +64,7 @@ module GoogleContacts
       xml.at_xpath('./xmlns:id').nil?
     end
 
-    def id
+    def href
       xml.at_xpath('./xmlns:id').text.strip unless new?
     end
 
