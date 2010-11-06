@@ -129,7 +129,7 @@ module GoogleContacts
       end
 
       def build(attributes = {})
-        returning(@klass.new(@wrapper)) do |instance|
+        @klass.new(@wrapper).tap do |instance|
           instance.attributes = attributes
         end
       end
