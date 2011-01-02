@@ -1,6 +1,6 @@
 module GoogleContacts
   module Proxies
-    class Array < BlankSlate
+    class Array < ActiveSupport::BasicObject
       def initialize(parent, options)
         @parent = parent
         @tag    = options[:tag]

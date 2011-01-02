@@ -1,6 +1,9 @@
 module GoogleContacts
   module Proxies
-    class Tag < BlankSlate
+    class Tag < ActiveSupport::BasicObject
+      # Proxy #nil? to the value of the tag
+      undef_method :nil? if instance_methods.include?("nil?")
+
       def initialize(parent, options)
         @parent = parent
         @tag    = options[:tag]

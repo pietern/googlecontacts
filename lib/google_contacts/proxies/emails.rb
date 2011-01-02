@@ -1,6 +1,6 @@
 module GoogleContacts
   module Proxies
-    class Emails < BlankSlate
+    class Emails < ActiveSupport::BasicObject
       def initialize(parent)
         @parent = parent
         reinitialize
