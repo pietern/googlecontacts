@@ -1,14 +1,8 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'rubygems'
-require 'spec'
-require 'spec/autorun'
-require 'pp'
-
-require 'fakeweb'
+require "rspec"
+require "fakeweb"
 FakeWeb.allow_net_connect = false
 
-require 'google_contacts'
+require "google_contacts"
 
 module Helpers
   def consumer
@@ -28,7 +22,7 @@ module Helpers
   end
 end
 
-Spec::Runner.configure do |config|
-  config.include(Helpers)
+RSpec.configure do |config|
+  config.include Helpers
   config.mock_with :mocha
 end
