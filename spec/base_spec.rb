@@ -118,7 +118,7 @@ describe GoogleContacts::Base do
     end
 
     it "should corretly set the batch:operation tag" do
-      %(insert update delete).each do |op|
+      %w(insert update delete).each do |op|
         batch = @t.entry_for_batch(op.to_sym)
         batch.at('./batch:operation')['type'].should == op
       end
