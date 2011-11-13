@@ -1,7 +1,5 @@
 require "rspec"
 require "fakeweb"
-FakeWeb.allow_net_connect = false
-
 require "google_contacts"
 
 module Helpers
@@ -21,6 +19,8 @@ module Helpers
     Nokogiri::XML.parse asset(file)
   end
 end
+
+FakeWeb.allow_net_connect = false
 
 RSpec.configure do |config|
   config.include Helpers
