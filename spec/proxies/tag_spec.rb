@@ -55,8 +55,9 @@ describe GoogleContacts::Proxies::Tag do
       end
 
       it "should create the tag" do
-        @node = mock('node') { expects(:content=).with('Example') }
-        @parent.expects(:insert_xml).with('atom:title').returns(@node)
+        @node = double('node')
+        @node.should_receive(:content=).with('Example')
+        @parent.should_receive(:insert_xml).with('atom:title').and_return(@node)
         @proxy.replace("Example")
         @proxy.synchronize
       end

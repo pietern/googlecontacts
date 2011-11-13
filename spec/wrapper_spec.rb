@@ -53,7 +53,7 @@ describe GoogleContacts::Wrapper do
     end
 
     it "should collect operations in a batch" do
-      wrapper.expects(:post).never
+      wrapper.should_not_receive(:post)
       document = wrapper.batch(:return_documents => true) do
         wrapper.contacts.build(:name => 'c1').save
         wrapper.contacts.build(:name => 'c2').save
@@ -66,7 +66,7 @@ describe GoogleContacts::Wrapper do
     end
 
     it "should flush batches in chunks of 100" do
-      wrapper.expects(:post).with(regexp_matches(%r!/contacts/!), is_a(String)).twice
+      wrapper.should_receive(:post).with(%r@/contacts/@, kind_of(String)).twice
       wrapper.batch do
         contact = wrapper.contacts.build(:name => 'contact')
         101.times { contact.save }
@@ -74,7 +74,7 @@ describe GoogleContacts::Wrapper do
     end
 
     it "should not flush when there are no operations to execute" do
-      wrapper.expects(:post).never
+      wrapper.should_not_receive(:post)
       wrapper.batch {}
     end
 
@@ -88,12 +88,12 @@ describe GoogleContacts::Wrapper do
     end
 
     it "should POST a single-operation batch to contacts when not batching" do
-      wrapper.expects(:post).with(regexp_matches(%r!/contacts/!), is_a(String))
+      wrapper.should_receive(:post).with(%r@/contacts/@, kind_of(String))
       wrapper.contacts.build(:name => 'contact').save
     end
 
     it "should POST a single-operation batch to groups when not batching" do
-      wrapper.expects(:post).with(regexp_matches(%r!/groups/!), is_a(String))
+      wrapper.should_receive(:post).with(%r@/groups/@, kind_of(String))
       wrapper.groups.build(:name => 'group').save
     end
   end

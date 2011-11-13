@@ -60,32 +60,32 @@ describe GoogleContacts::Base do
 
     # It is not sane to try and save a default entry
     it "should not save when an entry is new but has no changed fields" do
-      @entry.stubs(:new? => true, :changed? => false)
-      @wrapper.expects(:append_operation).never
+      @entry.stub(:new? => true, :changed? => false)
+      @wrapper.should_not_receive(:append_operation)
       @entry.save
     end
 
     it "should save when an entry is new and has changed fields" do
-      @entry.stubs(:new? => true, :changed? => true)
-      @wrapper.expects(:append_operation).with(@entry, :insert)
+      @entry.stub(:new? => true, :changed? => true)
+      @wrapper.should_receive(:append_operation).with(@entry, :insert)
       @entry.save
     end
 
     it "should save when an entry has changed fields" do
-      @entry.stubs(:new? => false, :changed? => true)
-      @wrapper.expects(:append_operation).with(@entry, :update)
+      @entry.stub(:new? => false, :changed? => true)
+      @wrapper.should_receive(:append_operation).with(@entry, :update)
       @entry.save
     end
 
     it "should not delete when an entry is new" do
-      @entry.stubs(:new? => true)
-      @wrapper.expects(:append_operation).never
+      @entry.stub(:new? => true)
+      @wrapper.should_not_receive(:append_operation)
       @entry.delete
     end
 
     it "should delete when an entry is not new" do
-      @entry.stubs(:new? => false)
-      @wrapper.expects(:append_operation).with(@entry, :delete)
+      @entry.stub(:new? => false)
+      @wrapper.should_receive(:append_operation).with(@entry, :delete)
       @entry.delete
     end
   end

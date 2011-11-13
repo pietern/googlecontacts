@@ -90,9 +90,9 @@ describe GoogleContacts::Proxies::Array do
     it "should update the group entries" do
       @proxy << 'http://another.group'
       @proxy << 'http://some.group'
-      @parent.expects(:remove_xml).with('./group')
-      @parent.expects(:insert_xml).with('group', { 'href' => 'http://another.group' })
-      @parent.expects(:insert_xml).with('group', { 'href' => 'http://some.group'    })
+      @parent.should_receive(:remove_xml).with('./group')
+      @parent.should_receive(:insert_xml).with('group', { 'href' => 'http://another.group' })
+      @parent.should_receive(:insert_xml).with('group', { 'href' => 'http://some.group'    })
       @proxy.synchronize
     end
   end

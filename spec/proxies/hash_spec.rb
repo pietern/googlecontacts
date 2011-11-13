@@ -64,9 +64,9 @@ describe GoogleContacts::Proxies::Hash do
     it "should update the group entries" do
       @proxy[:foo] = 'quux'
       @proxy[:baz] = 'bar'
-      @parent.expects(:remove_xml).with('./prop')
-      @parent.expects(:insert_xml).with('prop', { 'name' => 'foo', 'value' => 'quux' })
-      @parent.expects(:insert_xml).with('prop', { 'name' => 'baz', 'value' => 'bar'  })
+      @parent.should_receive(:remove_xml).with('./prop')
+      @parent.should_receive(:insert_xml).with('prop', { 'name' => 'foo', 'value' => 'quux' })
+      @parent.should_receive(:insert_xml).with('prop', { 'name' => 'baz', 'value' => 'bar'  })
       @proxy.synchronize
     end
   end

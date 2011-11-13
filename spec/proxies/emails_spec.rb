@@ -139,8 +139,8 @@ describe GoogleContacts::Proxies::Emails do
 
     it "should clear existing email tags" do
       @proxy << 'john@doe.com'
-      @parent.expects(:remove_xml).with('./gd:email')
-      @parent.stubs(:insert_xml)
+      @parent.should_receive(:remove_xml).with('./gd:email')
+      @parent.stub(:insert_xml)
       @proxy.synchronize
     end
 
@@ -148,12 +148,14 @@ describe GoogleContacts::Proxies::Emails do
       @proxy << 'john@doe.com'
       @proxy << 'jane@doe.com'
 
-      @parent.stubs(:remove_xml)
-      @parent.expects(:insert_xml).with('gd:email', has_entries(
-        'address' => 'john@doe.com',
-        'primary' => 'true'))
-      @parent.expects(:insert_xml).with('gd:email', has_entries(
-        'address' => 'jane@doe.com'))
+      @parent.stub(:remove_xml)
+      @parent.should_receive(:insert_xml).
+        with('gd:email', include(
+          'address' => 'john@doe.com',
+          'primary' => 'true'))
+      @parent.should_receive(:insert_xml).
+        with('gd:email', include(
+          'address' => 'jane@doe.com'))
       @proxy.synchronize
     end
   end

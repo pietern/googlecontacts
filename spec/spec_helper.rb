@@ -24,5 +24,4 @@ FakeWeb.allow_net_connect = false
 
 RSpec.configure do |config|
   config.include Helpers
-  config.mock_with :mocha
 end
