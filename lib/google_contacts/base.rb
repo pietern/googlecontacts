@@ -21,7 +21,7 @@ module GoogleContacts
         self.class.initialize_xml_document.root
       end
 
-      @proxies = HashWithIndifferentAccess.new
+      @proxies = ::HashWithIndifferentAccess.new
       register_base_proxies
     end
 

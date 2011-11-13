@@ -11,13 +11,13 @@ module GoogleContacts
       end
 
       def reinitialize
-        @current = HashWithIndifferentAccess.new
+        @current = ::HashWithIndifferentAccess.new
         @parent.xml.xpath("./#{@tag}").map do |entry|
           @current[entry[@key]] = entry[@value]
         end
 
         # create a deep copy
-        @new = HashWithIndifferentAccess.new
+        @new = ::HashWithIndifferentAccess.new
         @current.each { |k,v| @new[k.dup] = v.dup }
       end
 
