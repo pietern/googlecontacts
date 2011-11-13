@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe GoogleContacts::Proxies::Hash do
   describe "with existing entries" do

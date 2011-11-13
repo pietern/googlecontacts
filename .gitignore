@@ -1,10 +1,4 @@
-## PROJECT::GENERAL
-coverage
-rdoc
-pkg
-
-## PROJECT::SPECIFIC
-.gitattributes
-.rvmrc
-script/console
-notes
+*.gem
+.bundle
+Gemfile.lock
+pkg/*

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 
 class GoogleContacts::BaseTester < GoogleContacts::Base
   CATEGORY_TERM = "i'm not used here"
