@@ -77,8 +77,6 @@ module GoogleContacts
           :rel => "http://schemas.google.com/g/2005#home"
         }.freeze
 
-        alias_attribute :name, :displayName
-
         def initialize(parent, attributes = {})
           super(DEFAULTS)
           @parent = parent
@@ -86,6 +84,15 @@ module GoogleContacts
           attributes.each do |key, value|
             send("#{key}=", value)
           end
+        end
+
+        # Alias "name" to "displayName"
+        def name
+          method_missing(:displayName)
+        end
+
+        def name=(v)
+          method_missing(:displayName=, v)
         end
 
         def primary!

@@ -2,7 +2,6 @@ $:.unshift File.dirname(__FILE__)
 require "rubygems"
 require "active_support/basic_object"
 require "active_support/core_ext/hash"
-require "active_support/core_ext/module"
 require "oauth"
 require "nokogiri"
 

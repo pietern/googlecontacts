@@ -103,8 +103,14 @@ module GoogleContacts
       properties[prop] = value
     end
 
-    # Alias the xmlns:title tag be be accessible using #name(=)?
-    alias_attribute :name, :title
+    # Alias "name" to "title"
+    def name
+      method_missing(:title)
+    end
+
+    def name=(v)
+      method_missing(:title=, v)
+    end
 
     protected
     def register_proxy(name, proxy)
