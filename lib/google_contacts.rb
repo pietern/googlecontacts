@@ -8,7 +8,6 @@ require 'nokogiri'
 
 require 'google_contacts/auth'
 require 'google_contacts/wrapper'
-require 'google_contacts/base'
 require 'google_contacts/contact'
 require 'google_contacts/group'
 

@@ -1,3 +1,5 @@
+require 'google_contacts/base'
+
 module GoogleContacts
   class Contact < Base
     CATEGORY_TERM = 'http://schemas.google.com/contact/2008#contact'
