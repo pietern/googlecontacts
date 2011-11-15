@@ -12,7 +12,7 @@ module GoogleContacts
       end
 
       def reinitialize
-        @current = node.try(:content)
+        @current = node && node.content
         @new     = @current ? @current.dup : nil
       end
 

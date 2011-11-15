@@ -1,3 +1,5 @@
+require "time"
+
 module GoogleContacts
   class Base
     NAMESPACES = {
@@ -15,7 +17,7 @@ module GoogleContacts
 
       # If a root node is given, create a new XML document based on
       # a deep copy. Otherwise, initialize a new XML document.
-      @xml = if xml.present?
+      @xml = if xml
         self.class.new_xml_document(xml).root
       else
         self.class.initialize_xml_document.root

@@ -14,7 +14,8 @@ module GoogleContacts
     end
 
     def email
-      emails.primary.try(:address)
+      primary = emails.primary
+      primary && primary.address
     end
 
     def email=(address)

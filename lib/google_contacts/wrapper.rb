@@ -78,7 +78,7 @@ module GoogleContacts
 
     def append_to_batch(entry)
       if @batching
-        if @batch.present?
+        if @batch.length > 0
           batch_term = @batch.last.at('./atom:category')['term']
           entry_term =       entry.at('./atom:category')['term']
           raise "Cannot mix Contact and Group in one batch" if batch_term != entry_term
@@ -118,7 +118,7 @@ module GoogleContacts
       def initialize(wrapper, klass)
         @wrapper    = wrapper
         @klass      = klass
-        @collection = klass.name.demodulize.pluralize.underscore
+        @collection = klass.name.split("::").last.downcase + "s"
       end
 
       # :what - all, ID, whatever, currently unused
