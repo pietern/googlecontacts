@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe GoogleContacts::Proxies::Hash do
   describe "with existing entries" do
@@ -11,7 +11,7 @@ describe GoogleContacts::Proxies::Hash do
     end
 
     it "should initialize on creation" do
-      @proxy[:foo].should == 'bar'
+      @proxy[:foo].should == "bar"
       @proxy.should have(1).entry
     end
   end
@@ -22,13 +22,13 @@ describe GoogleContacts::Proxies::Hash do
     end
 
     it "should allow setting a value" do
-      @proxy[:foo] = 'bar'
+      @proxy[:foo] = "bar"
       @proxy.should have(1).entry
-      @proxy[:foo].should == 'bar'
+      @proxy[:foo].should == "bar"
     end
 
     it "should allow clearing" do
-      @proxy[:foo] = 'bar'
+      @proxy[:foo] = "bar"
       @proxy.clear
       @proxy.should have(:no).entries
     end
@@ -45,13 +45,13 @@ describe GoogleContacts::Proxies::Hash do
 
     it "should work when a new value was set" do
       lambda {
-        @proxy[:foo] = 'quux'
+        @proxy[:foo] = "quux"
       }.should change(@proxy, :changed?).from(false).to(true)
     end
 
     it "should not be changed when the new value equals the old one" do
       lambda {
-        @proxy[:foo] = 'foo'
+        @proxy[:foo] = "foo"
       }.should_not change(@proxy, :changed?).from(false)
     end
   end
@@ -62,17 +62,17 @@ describe GoogleContacts::Proxies::Hash do
     end
 
     it "should update the group entries" do
-      @proxy[:foo] = 'quux'
-      @proxy[:baz] = 'bar'
-      @parent.should_receive(:remove_xml).with('./prop')
-      @parent.should_receive(:insert_xml).with('prop', { 'name' => 'foo', 'value' => 'quux' })
-      @parent.should_receive(:insert_xml).with('prop', { 'name' => 'baz', 'value' => 'bar'  })
+      @proxy[:foo] = "quux"
+      @proxy[:baz] = "bar"
+      @parent.should_receive(:remove_xml).with("./prop")
+      @parent.should_receive(:insert_xml).with("prop", { "name" => "foo", "value" => "quux" })
+      @parent.should_receive(:insert_xml).with("prop", { "name" => "baz", "value" => "bar"  })
       @proxy.synchronize
     end
   end
 
   def create_proxy_from_xml(str)
-    @parent = stub('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = GoogleContacts::Proxies::Hash.new(@parent, :tag => 'prop', :key => 'name', :value => 'value')
+    @parent = stub("parent", :xml => Nokogiri::XML.parse(str).root)
+    @proxy  = GoogleContacts::Proxies::Hash.new(@parent, :tag => "prop", :key => "name", :value => "value")
   end
 end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe GoogleContacts::Proxies::Array do
   describe "with existing entries" do
@@ -8,7 +8,7 @@ describe GoogleContacts::Proxies::Array do
 
     it "should initialize on creation" do
       @proxy.size.should == 1
-      @proxy[0].should == 'http://some.group'
+      @proxy[0].should == "http://some.group"
     end
   end
 
@@ -18,20 +18,20 @@ describe GoogleContacts::Proxies::Array do
     end
 
     it "should allow pushing a plain value" do
-      @proxy << 'http://foo'
+      @proxy << "http://foo"
       @proxy.should have(1).group
-      @proxy[0].should == 'http://foo'
+      @proxy[0].should == "http://foo"
     end
 
     it "should allow pushing an object that responds to href" do
-      @proxy << mock('Group', :href => 'http://foo')
+      @proxy << mock("Group", :href => "http://foo")
       @proxy.should have(1).group
-      @proxy[0].should == 'http://foo'
+      @proxy[0].should == "http://foo"
     end
 
     it "should filter duplicates" do
-      @proxy << 'http://foo'
-      @proxy << 'http://foo'
+      @proxy << "http://foo"
+      @proxy << "http://foo"
       @proxy.should have(1).group
     end
 
@@ -41,7 +41,7 @@ describe GoogleContacts::Proxies::Array do
     end
 
     it "should allow clearing" do
-      @proxy << 'http://foo'
+      @proxy << "http://foo"
       @proxy.clear
       @proxy.should have(:no).groups
     end
@@ -59,13 +59,13 @@ describe GoogleContacts::Proxies::Array do
 
     it "should work after pushing a new entry" do
       lambda {
-        @proxy << 'http://foo'
+        @proxy << "http://foo"
       }.should change(@proxy, :changed?).from(false).to(true)
     end
 
     it "should not be changed when a duplicate is added" do
       lambda {
-        @proxy << 'http://some.group'
+        @proxy << "http://some.group"
       }.should_not change(@proxy, :changed?).from(false)
     end
 
@@ -77,7 +77,7 @@ describe GoogleContacts::Proxies::Array do
 
     it "should not be influenced by order" do
       lambda {
-        @proxy.replace ['http://another.group', 'http://some.group']
+        @proxy.replace ["http://another.group", "http://some.group"]
       }.should_not change(@proxy, :changed?).from(false)
     end
   end
@@ -88,18 +88,18 @@ describe GoogleContacts::Proxies::Array do
     end
 
     it "should update the group entries" do
-      @proxy << 'http://another.group'
-      @proxy << 'http://some.group'
-      @parent.should_receive(:remove_xml).with('./group')
-      @parent.should_receive(:insert_xml).with('group', { 'href' => 'http://another.group' })
-      @parent.should_receive(:insert_xml).with('group', { 'href' => 'http://some.group'    })
+      @proxy << "http://another.group"
+      @proxy << "http://some.group"
+      @parent.should_receive(:remove_xml).with("./group")
+      @parent.should_receive(:insert_xml).with("group", { "href" => "http://another.group" })
+      @parent.should_receive(:insert_xml).with("group", { "href" => "http://some.group"    })
       @proxy.synchronize
     end
   end
 
   def create_proxy_from_xml(str)
-    @parent = mock('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = GoogleContacts::Proxies::Array.new(@parent, :tag => 'group', :attr => 'href')
+    @parent = mock("parent", :xml => Nokogiri::XML.parse(str).root)
+    @proxy  = GoogleContacts::Proxies::Array.new(@parent, :tag => "group", :attr => "href")
   end
 end
 

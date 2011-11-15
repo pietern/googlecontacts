@@ -1,11 +1,11 @@
-require 'google_contacts/base'
+require "google_contacts/base"
 
 module GoogleContacts
   class Group < Base
-    CATEGORY_TERM = 'http://schemas.google.com/contact/2008#group'
+    CATEGORY_TERM = "http://schemas.google.com/contact/2008#group"
 
     def system_group?
-      @xml.xpath('./gContact:systemGroup').size > 0
+      @xml.xpath("./gContact:systemGroup").size > 0
     end
 
     def inspect

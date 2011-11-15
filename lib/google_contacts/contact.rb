@@ -1,16 +1,16 @@
-require 'google_contacts/base'
+require "google_contacts/base"
 
 module GoogleContacts
   class Contact < Base
-    CATEGORY_TERM = 'http://schemas.google.com/contact/2008#contact'
+    CATEGORY_TERM = "http://schemas.google.com/contact/2008#contact"
 
     alias_attribute :name, :title
     def initialize(*args)
       super
       register_proxy :emails, Proxies::Emails.new(self)
       register_proxy :groups, Proxies::Array.new(self,
-        :tag   => 'gContact:groupMembershipInfo',
-        :attr  => 'href')
+        :tag   => "gContact:groupMembershipInfo",
+        :attr  => "href")
     end
 
     def email

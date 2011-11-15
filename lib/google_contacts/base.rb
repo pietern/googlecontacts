@@ -3,16 +3,16 @@ require "time"
 module GoogleContacts
   class Base
     NAMESPACES = {
-      'atom'        => 'http://www.w3.org/2005/Atom',
-      'openSearch'  => 'http://a9.com/-/spec/opensearch/1.1/',
-      'gContact'    => 'http://schemas.google.com/contact/2008',
-      'batch'       => 'http://schemas.google.com/gdata/batch',
-      'gd'          => 'http://schemas.google.com/g/2005',
+      "atom"        => "http://www.w3.org/2005/Atom",
+      "openSearch"  => "http://a9.com/-/spec/opensearch/1.1/",
+      "gContact"    => "http://schemas.google.com/contact/2008",
+      "batch"       => "http://schemas.google.com/gdata/batch",
+      "gd"          => "http://schemas.google.com/g/2005",
     }.freeze
 
     attr_reader :xml
     def initialize(wrapper, xml = nil)
-      raise "Cannot create instance of Base" if self.class.name.split(/::/).last == 'Base'
+      raise "Cannot create instance of Base" if self.class.name.split(/::/).last == "Base"
       @wrapper = wrapper
 
       # If a root node is given, create a new XML document based on
@@ -42,40 +42,40 @@ module GoogleContacts
     end
 
     def self.feed_for_batch
-      new_xml_document('feed').root
+      new_xml_document("feed").root
     end
 
     # Create new XML::Document that can be used in a
     # Google Contacts batch operation.
     def entry_for_batch(operation)
       root = self.class.new_xml_document(xml).root
-      root.xpath('./xmlns:link'   ).remove
-      root.xpath('./xmlns:updated').remove
+      root.xpath("./xmlns:link"   ).remove
+      root.xpath("./xmlns:updated").remove
 
       if operation == :update || operation == :delete
-        root.at('./xmlns:id').content = url(:edit)
+        root.at("./xmlns:id").content = url(:edit)
       end
 
-      self.class.insert_xml(root, 'batch:id')
-      self.class.insert_xml(root, 'batch:operation', :type => operation)
+      self.class.insert_xml(root, "batch:id")
+      self.class.insert_xml(root, "batch:operation", :type => operation)
 
       root
     end
 
     def new?
-      xml.at_xpath('./xmlns:id').nil?
+      xml.at_xpath("./xmlns:id").nil?
     end
 
     def href
-      xml.at_xpath('./xmlns:id').text.strip unless new?
+      xml.at_xpath("./xmlns:id").text.strip unless new?
     end
 
     def updated_at
-      Time.parse xml.at_xpath('./xmlns:updated').text.strip unless new?
+      Time.parse xml.at_xpath("./xmlns:updated").text.strip unless new?
     end
 
     def url(rel)
-      rel = 'http://schemas.google.com/contacts/2008/rel#photo' if rel == :photo
+      rel = "http://schemas.google.com/contacts/2008/rel#photo" if rel == :photo
       xml.at_xpath(%{xmlns:link[@rel="#{rel}"]})[:href]
     end
 
@@ -116,11 +116,11 @@ module GoogleContacts
     end
 
     def register_base_proxies
-      register_proxy :title,  Proxies::Tag.new(self, :tag => 'xmlns:title')
+      register_proxy :title,  Proxies::Tag.new(self, :tag => "xmlns:title")
       register_proxy :properties, Proxies::Hash.new(self,
-        :tag   => 'gd:extendedProperty',
-        :key   => 'name',
-        :value => 'value')
+        :tag   => "gd:extendedProperty",
+        :key   => "name",
+        :value => "value")
     end
 
     # Try to proxy missing method to one of the proxies
@@ -145,7 +145,7 @@ module GoogleContacts
     def self.insert_xml(parent, tag, attributes = {}, &blk)
       # Construct new node with the right namespace
       matches = tag.match /^((\w+):)?(\w+)$/
-      ns      = matches[2] == 'xmlns' ? 'atom' : (matches[2] || 'atom')
+      ns      = matches[2] == "xmlns" ? "atom" : (matches[2] || "atom")
       tag     = matches[3]
       node = Nokogiri::XML::Node.new(tag, parent)
       node.namespace = namespace(parent, ns) || raise("Unknown namespace: #{ns}")
@@ -171,16 +171,16 @@ module GoogleContacts
     end
 
     def self.initialize_xml_document
-      doc = new_xml_document('entry')
-      insert_xml(doc.root, 'atom:category', {
-        :scheme => 'http://schemas.google.com/g/2005#kind',
+      doc = new_xml_document("entry")
+      insert_xml(doc.root, "atom:category", {
+        :scheme => "http://schemas.google.com/g/2005#kind",
         :term   => const_get(:CATEGORY_TERM)
       })
       doc
     end
 
     def self.decorate_document_with_namespaces(doc)
-      doc.root.default_namespace = NAMESPACES['atom']
+      doc.root.default_namespace = NAMESPACES["atom"]
       NAMESPACES.each_pair do |prefix, href|
         doc.root.add_namespace(prefix, href)
       end

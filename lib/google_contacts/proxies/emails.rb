@@ -48,7 +48,7 @@ module GoogleContacts
       def synchronize
         @parent.remove_xml("./gd:email")
         @new.each_pair do |address, email|
-          @parent.insert_xml('gd:email', email)
+          @parent.insert_xml("gd:email", email)
         end
       end
 
@@ -74,7 +74,7 @@ module GoogleContacts
 
       class Email < ::HashWithIndifferentAccess
         DEFAULTS = {
-          :rel => 'http://schemas.google.com/g/2005#home'
+          :rel => "http://schemas.google.com/g/2005#home"
         }.freeze
 
         alias_attribute :name, :displayName
@@ -103,7 +103,7 @@ module GoogleContacts
         end
 
         def []=(key, value)
-          if "#{key}" == 'address' && self[key]
+          if "#{key}" == "address" && self[key]
             raise "Cannot modify email address"
           end
           super(key, value.to_s)
@@ -116,10 +116,10 @@ module GoogleContacts
         def method_missing(sym, *args, &blk)
           if sym.to_s =~ /^(\w+)(=|\?)?$/
             case $2
-            when '='
+            when "="
               send(:[]=, $1, *args)
-            when '?'
-              send(:[], $1) == 'true'
+            when "?"
+              send(:[], $1) == "true"
             else
               send(:[], $1)
             end

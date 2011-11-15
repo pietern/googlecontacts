@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe GoogleContacts::Proxies::Tag do
   describe "with existing entries" do
@@ -11,7 +11,7 @@ describe GoogleContacts::Proxies::Tag do
     end
 
     it "should initialize" do
-      @proxy.should == 'Example'
+      @proxy.should == "Example"
     end
 
     it "should not be changed when initialized" do
@@ -32,7 +32,7 @@ describe GoogleContacts::Proxies::Tag do
     end
 
     it "should not create the tag when initializing" do
-      @parent.xml.xpath('./atom:title').should have(:no).entries
+      @parent.xml.xpath("./atom:title").should have(:no).entries
     end
 
     it "should not be changed when initialized" do
@@ -55,9 +55,9 @@ describe GoogleContacts::Proxies::Tag do
       end
 
       it "should create the tag" do
-        @node = double('node')
-        @node.should_receive(:content=).with('Example')
-        @parent.should_receive(:insert_xml).with('atom:title').and_return(@node)
+        @node = double("node")
+        @node.should_receive(:content=).with("Example")
+        @parent.should_receive(:insert_xml).with("atom:title").and_return(@node)
         @proxy.replace("Example")
         @proxy.synchronize
       end
@@ -75,14 +75,14 @@ describe GoogleContacts::Proxies::Tag do
       it "should update the tag" do
         @proxy.replace("Replacement")
         @proxy.synchronize
-        @parent.xml.at('./atom:title').content.should == 'Replacement'
+        @parent.xml.at("./atom:title").content.should == "Replacement"
       end
     end
   end
 
   def create_proxy_from_xml(str)
-    @parent = stub('parent', :xml => Nokogiri::XML.parse(str).root)
-    @proxy  = GoogleContacts::Proxies::Tag.new(@parent, :tag => 'atom:title')
+    @parent = stub("parent", :xml => Nokogiri::XML.parse(str).root)
+    @proxy  = GoogleContacts::Proxies::Tag.new(@parent, :tag => "atom:title")
   end
 end
 

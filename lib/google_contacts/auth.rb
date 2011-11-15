@@ -1,10 +1,10 @@
 module GoogleContacts
   class Auth
     GOOGLE_OAUTH = {
-      :site => 'https://www.google.com',
-      :request_token_path => '/accounts/OAuthGetRequestToken',
-      :authorize_path     => '/accounts/OAuthAuthorizeToken',
-      :access_token_path  => '/accounts/OAuthGetAccessToken',
+      :site => "https://www.google.com",
+      :request_token_path => "/accounts/OAuthGetRequestToken",
+      :authorize_path     => "/accounts/OAuthAuthorizeToken",
+      :access_token_path  => "/accounts/OAuthGetAccessToken",
     }.freeze
 
     class << self
@@ -21,7 +21,7 @@ module GoogleContacts
       self.class.consumer.get_request_token({
         :oauth_callback => options[:callback]
       }, {
-        :scope => 'http://www.google.com/m8/feeds/'
+        :scope => "http://www.google.com/m8/feeds/"
       })
     end
   end

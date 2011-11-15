@@ -4,7 +4,7 @@ require "google_contacts"
 
 module Helpers
   def consumer
-    ::OAuth::AccessToken.new(GoogleContacts::Auth.consumer, 'key', 'secret')
+    ::OAuth::AccessToken.new(GoogleContacts::Auth.consumer, "key", "secret")
   end
 
   def wrapper

@@ -17,7 +17,7 @@ module GoogleContacts
     end
 
     def get(url, options = {})
-      query = options.map { |k,v| "#{k}=#{v}" }.join('&')
+      query = options.map { |k,v| "#{k}=#{v}" }.join("&")
       url += "?#{query}" if query.size > 0
 
       body = consumer.get(url).body
@@ -25,7 +25,7 @@ module GoogleContacts
     end
 
     def post(url, body)
-      consumer.post(url, body, 'Content-Type' => 'application/atom+xml')
+      consumer.post(url, body, "Content-Type" => "application/atom+xml")
     end
 
     def batch(options = {}, &blk)
@@ -52,19 +52,19 @@ module GoogleContacts
     end
 
     def find(what, options = {}, &blk)
-      options['max-results'] ||= 200
-      options['start-index'] = 1
+      options["max-results"] ||= 200
+      options["start-index"] = 1
 
       result = []
       begin
         xml = get("http://www.google.com/m8/feeds/#{what}/default/full", options)
-        result.concat xml.xpath('/xmlns:feed/xmlns:entry').map(&blk)
+        result.concat xml.xpath("/xmlns:feed/xmlns:entry").map(&blk)
 
-        total_results = xml.at('//openSearch:totalResults').text.to_i
-        start_index   = xml.at('//openSearch:startIndex'  ).text.to_i
-        per_page      = xml.at('//openSearch:itemsPerPage').text.to_i
-        options['start-index'] = start_index + per_page
-      end while (options['start-index'] <= total_results)
+        total_results = xml.at("//openSearch:totalResults").text.to_i
+        start_index   = xml.at("//openSearch:startIndex"  ).text.to_i
+        per_page      = xml.at("//openSearch:itemsPerPage").text.to_i
+        options["start-index"] = start_index + per_page
+      end while (options["start-index"] <= total_results)
 
       result
     end
@@ -79,8 +79,8 @@ module GoogleContacts
     def append_to_batch(entry)
       if @batching
         if @batch.length > 0
-          batch_term = @batch.last.at('./atom:category')['term']
-          entry_term =       entry.at('./atom:category')['term']
+          batch_term = @batch.last.at("./atom:category")["term"]
+          entry_term =       entry.at("./atom:category")["term"]
           raise "Cannot mix Contact and Group in one batch" if batch_term != entry_term
         end
 
@@ -93,9 +93,9 @@ module GoogleContacts
     end
 
     # Use the <category/> tag of the first entry to find out
-    # which type we're flushing
+    # which type we"re flushing
     def flush_batch(document)
-      url = case document.at('./xmlns:entry[1]/xmlns:category')['term']
+      url = case document.at("./xmlns:entry[1]/xmlns:category")["term"]
       when /#contact$/i
         CONTACTS_BATCH
       when /#group$/i
