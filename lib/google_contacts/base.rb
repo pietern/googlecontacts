@@ -23,7 +23,7 @@ module GoogleContacts
         self.class.initialize_xml_document.root
       end
 
-      @proxies = ::HashWithIndifferentAccess.new
+      @proxies = Hash.new
       register_base_proxies
     end
 
@@ -114,7 +114,7 @@ module GoogleContacts
 
     protected
     def register_proxy(name, proxy)
-      @proxies[name.to_sym] = proxy
+      @proxies[name.to_s] = proxy
     end
 
     def synchronize_proxies
