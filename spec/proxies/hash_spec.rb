@@ -16,6 +16,21 @@ describe GoogleContacts::Proxies::Hash do
     end
   end
 
+  describe "with a valueless entry" do
+    before(:each) do
+      create_proxy_from_xml <<-XML
+        <entry>
+          <prop name="foo" />
+        </entry>
+      XML
+    end
+
+    it "should ignore valueless entries" do
+      @proxy[:foo].should be_nil
+      @proxy.should have(0).entry
+    end
+  end
+
   describe "without existing entries" do
     before(:each) do
       create_proxy_from_xml "<entry></entry>"

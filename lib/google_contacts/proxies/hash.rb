@@ -18,7 +18,9 @@ module GoogleContacts
 
         # create a deep copy
         @new = ::HashWithIndifferentAccess.new
-        @current.each { |k,v| @new[k.dup] = v.dup }
+        @current.each do |k,v| 
+          @new[k.dup] = v.dup unless v.nil?
+        end
       end
 
       def changed?
